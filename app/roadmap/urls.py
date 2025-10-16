@@ -9,7 +9,7 @@ app_name = 'roadmap'
 
 router = DefaultRouter()
 
-router.register('', RoadmapViewSet, basename='roadmap')
+router.register('', RoadmapViewSet, basename='roadmaps')
 
 urlpatterns = [
     path('', include(router.urls)),
