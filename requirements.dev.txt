@@ -1,0 +1,7 @@
+flake8>=7.2.0,<7.3
+coverage
+mypy
+django-stubs[compatible-mypy]
+djangorestframework-stubs
+types-requests
+types-python-dateutil
