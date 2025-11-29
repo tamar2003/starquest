@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 from django.db import IntegrityError
 
 
-from core.models import Roadmap
+from core.models import Roadmap, Stage
 
 
 class ModelTests(TestCase):
@@ -96,3 +96,46 @@ class ModelTests(TestCase):
                 career_goal="Become a Data Scientist",
                 details="Some details"
             )
+
+    def test_create_stage_successful(self) -> None:
+        """Test creating a stage is successful."""
+
+        stage = Stage.objects.create(
+            name="Stage 1",
+            description="Description for Stage 1",
+            order=1,
+            is_active=True
+        )
+        self.assertEqual(stage.name, "Stage 1")
+        self.assertEqual(stage.description, "Description for Stage 1")
+        self.assertEqual(stage.order, 1)
+        self.assertTrue(stage.is_active)
+        self.assertIsNotNone(stage.created_at)
+        self.assertIsNotNone(stage.updated_at)
+
+    def test_create_stage_with_duplicate_order_raises_error(self) -> None:
+        """Test that creating a stage with duplicate order raises an IntegrityError."""
+
+        Stage.objects.create(
+            name="Stage 1",
+            description="Description for Stage 1",
+            order=1,
+            is_active=True
+        )
+        with self.assertRaises(IntegrityError):
+            Stage.objects.create(
+                name="Stage 2",
+                description="Description for Stage 2",
+                order=1,
+                is_active=True
+            )
+
+    def test_stage_string_representation(self) -> None:
+        """Test the string representation of a Stage."""
+        stage = Stage.objects.create(
+            name="Nabula",
+            description="Description for Stage 1",
+            order=1,
+            is_active=True
+        )
+        self.assertEqual(str(stage), "1. Nabula Stage")
