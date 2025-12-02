@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 from django.db import IntegrityError
 
 
-from core.models import Roadmap, Stage
+from core.models import Roadmap, Trajectories
 
 
 class ModelTests(TestCase):
@@ -97,45 +97,44 @@ class ModelTests(TestCase):
                 details="Some details"
             )
 
-    def test_create_stage_successful(self) -> None:
-        """Test creating a stage is successful."""
+    def test_create_trajectories_successful(self) -> None:
+        """Test creating a trajectory is successful."""
 
-        stage = Stage.objects.create(
-            name="Stage 1",
-            description="Description for Stage 1",
+        trajectory = Trajectories.objects.create(
+            name="Trajectory 1",
+            description="Description for Trajectory 1",
             order=1,
             is_active=True
         )
-        self.assertEqual(stage.name, "Stage 1")
-        self.assertEqual(stage.description, "Description for Stage 1")
-        self.assertEqual(stage.order, 1)
-        self.assertTrue(stage.is_active)
-        self.assertIsNotNone(stage.created_at)
-        self.assertIsNotNone(stage.updated_at)
+        self.assertEqual(trajectory.name, "Trajectory 1")
+        self.assertEqual(trajectory.description, "Description for Trajectory 1")
+        self.assertEqual(trajectory.order, 1)
+        self.assertTrue(trajectory.is_active)
+        self.assertIsNotNone(trajectory.created_at)
+        self.assertIsNotNone(trajectory.updated_at)
+    def test_create_trajectory_with_duplicate_order_raises_error(self) -> None:
+        """Test that creating a trajectory with duplicate order raises an IntegrityError."""
 
-    def test_create_stage_with_duplicate_order_raises_error(self) -> None:
-        """Test that creating a stage with duplicate order raises an IntegrityError."""
-
-        Stage.objects.create(
-            name="Stage 1",
-            description="Description for Stage 1",
+        Trajectories.objects.create(
+            name="Trajectory 1",
+            description="Description for Trajectory 1",
             order=1,
             is_active=True
         )
         with self.assertRaises(IntegrityError):
-            Stage.objects.create(
-                name="Stage 2",
-                description="Description for Stage 2",
+            Trajectories.objects.create(
+                name="Trajectory 2",
+                description="Description for Trajectory 2",
                 order=1,
                 is_active=True
             )
 
-    def test_stage_string_representation(self) -> None:
-        """Test the string representation of a Stage."""
-        stage = Stage.objects.create(
+    def test_trajectory_string_representation(self) -> None:
+        """Test the string representation of a Trajectory."""
+        trajectory = Trajectories.objects.create(
             name="Nabula",
-            description="Description for Stage 1",
+            description="Description for Trajectory 1",
             order=1,
             is_active=True
         )
-        self.assertEqual(str(stage), "1. Nabula Stage")
+        self.assertEqual(str(trajectory), "1. Nabula Trajectory")
