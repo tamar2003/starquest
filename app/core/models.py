@@ -74,3 +74,19 @@ class Roadmap(models.Model):
             f"Roadmap for {self.user.email} - "
             f"Career Goal: {self.career_goal}"
         )
+
+
+class StarPhase(models.Model):
+    """Represents a phase in the trajectory."""
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
+    order = models.PositiveIntegerField(unique=True)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self) -> str:
+        return f"{self.order}. {self.name} Phase"

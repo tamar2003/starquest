@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 from django.db import IntegrityError
 
 
-from core.models import Roadmap
+from core.models import Roadmap, StarPhase
 
 
 class ModelTests(TestCase):
@@ -96,3 +96,49 @@ class ModelTests(TestCase):
                 career_goal="Become a Data Scientist",
                 details="Some details"
             )
+
+    def test_create_starphase_successful(self) -> None:
+        """Test creating a starphase is successful."""
+
+        starphase = StarPhase.objects.create(
+            name="phase 1",
+            description="Description for phase 1",
+            order=1,
+            is_active=True
+        )
+        self.assertEqual(starphase.name, "phase 1")
+        self.assertEqual(starphase.description, "Description for phase 1")
+        self.assertEqual(starphase.order, 1)
+        self.assertTrue(starphase.is_active)
+        self.assertIsNotNone(starphase.created_at)
+        self.assertIsNotNone(starphase.updated_at)
+
+    def test_create_starphase_with_duplicate_order_raises_error(self) -> None:
+        """
+        Test that creating a starphase with duplicate order
+        raises an IntegrityError.
+        """
+
+        StarPhase.objects.create(
+            name="phase 1",
+            description="Description for phase 1",
+            order=1,
+            is_active=True
+        )
+        with self.assertRaises(IntegrityError):
+            StarPhase.objects.create(
+                name="phase 2",
+                description="Description for phase 2",
+                order=1,
+                is_active=True
+            )
+
+    def test_starphase_string_representation(self) -> None:
+        """Test the string representation of a starphase."""
+        starphase = StarPhase.objects.create(
+            name="Nabula",
+            description="Description for phase 1",
+            order=1,
+            is_active=True
+        )
+        self.assertEqual(str(starphase), "1. Nabula Phase")
