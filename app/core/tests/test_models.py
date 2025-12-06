@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 from django.db import IntegrityError
 
 
-from core.models import Roadmap, Trajectories
+from core.models import Roadmap, StarPhase
 
 
 class ModelTests(TestCase):
@@ -97,44 +97,48 @@ class ModelTests(TestCase):
                 details="Some details"
             )
 
-    def test_create_trajectories_successful(self) -> None:
-        """Test creating a trajectory is successful."""
+    def test_create_starphase_successful(self) -> None:
+        """Test creating a starphase is successful."""
 
-        trajectory = Trajectories.objects.create(
-            name="Trajectory 1",
-            description="Description for Trajectory 1",
+        starphase = StarPhase.objects.create(
+            name="phase 1",
+            description="Description for phase 1",
             order=1,
             is_active=True
         )
-        self.assertEqual(trajectory.name, "Trajectory 1")
-        self.assertEqual(trajectory.description, "Description for Trajectory 1")
-        self.assertEqual(trajectory.order, 1)
-        self.assertTrue(trajectory.is_active)
-        self.assertIsNotNone(trajectory.created_at)
-        self.assertIsNotNone(trajectory.updated_at)
-    def test_create_trajectory_with_duplicate_order_raises_error(self) -> None:
-        """Test that creating a trajectory with duplicate order raises an IntegrityError."""
+        self.assertEqual(starphase.name, "phase 1")
+        self.assertEqual(starphase.description, "Description for phase 1")
+        self.assertEqual(starphase.order, 1)
+        self.assertTrue(starphase.is_active)
+        self.assertIsNotNone(starphase.created_at)
+        self.assertIsNotNone(starphase.updated_at)
 
-        Trajectories.objects.create(
-            name="Trajectory 1",
-            description="Description for Trajectory 1",
+    def test_create_starphase_with_duplicate_order_raises_error(self) -> None:
+        """
+        Test that creating a starphase with duplicate order
+        raises an IntegrityError.
+        """
+
+        StarPhase.objects.create(
+            name="phase 1",
+            description="Description for phase 1",
             order=1,
             is_active=True
         )
         with self.assertRaises(IntegrityError):
-            Trajectories.objects.create(
-                name="Trajectory 2",
-                description="Description for Trajectory 2",
+            StarPhase.objects.create(
+                name="phase 2",
+                description="Description for phase 2",
                 order=1,
                 is_active=True
             )
 
-    def test_trajectory_string_representation(self) -> None:
-        """Test the string representation of a Trajectory."""
-        trajectory = Trajectories.objects.create(
+    def test_starphase_string_representation(self) -> None:
+        """Test the string representation of a starphase."""
+        starphase = StarPhase.objects.create(
             name="Nabula",
-            description="Description for Trajectory 1",
+            description="Description for phase 1",
             order=1,
             is_active=True
         )
-        self.assertEqual(str(trajectory), "1. Nabula Trajectory")
+        self.assertEqual(str(starphase), "1. Nabula Phase")

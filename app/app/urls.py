@@ -30,5 +30,5 @@ urlpatterns = [
          name='api-docs'),
     path('api/users/', include('users.urls')),
     path('api/roadmaps/', include('roadmap.urls')),
-    path('api/trajectories/', include('trajectories.urls')),
+    path('api/starphase/', include('starphase.urls')),
 ]

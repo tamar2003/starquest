@@ -75,8 +75,9 @@ class Roadmap(models.Model):
             f"Career Goal: {self.career_goal}"
         )
 
-class Trajectories(models.Model):
-    """Represents a trajectory in the linear program flow."""
+
+class StarPhase(models.Model):
+    """Represents a phase in the trajectory."""
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     order = models.PositiveIntegerField(unique=True)
@@ -88,4 +89,4 @@ class Trajectories(models.Model):
         ordering = ['order']
 
     def __str__(self) -> str:
-        return f"{self.order}. {self.name} Trajectory"
+        return f"{self.order}. {self.name} Phase"

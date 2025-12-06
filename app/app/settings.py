@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'core',
     'users',
     'roadmap',
-    'trajectories',
+    'starphase',
 ]
 
 MIDDLEWARE = [
